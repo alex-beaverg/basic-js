@@ -1,5 +1,4 @@
 const CustomError = require("../extensions/custom-error");
-
 module.exports = function transform(arr) {  
   if (!Array.isArray(arr)) throw Error;
   let arrRes=[];
@@ -8,13 +7,16 @@ module.exports = function transform(arr) {
   let flag3 = false;
   for (let item of arr) {    
     if (flag === true) {
-      flag = false;      
+      flag = false;          
       continue;
     }
     if (flag2 === true) {
       flag2 = false;
       arrRes.push(item);
       arrRes.push(item);
+      flag = false;
+      flag2 = false;
+      flag3 = false;
       continue;
     }
     switch (item) {
@@ -29,6 +31,9 @@ module.exports = function transform(arr) {
           continue;
         }
         arrRes.pop();
+        flag = false;
+        flag2 = false;
+        flag3 = false;
         break;
       case '--double-next':
         flag2 = true;
@@ -40,10 +45,16 @@ module.exports = function transform(arr) {
           continue;
         }
         arrRes.push(arrRes[arrRes.length - 1]);
+        flag = false;
+        flag2 = false;
+        flag3 = false;
         break;
       default:
         arrRes.push(item);
+        flag = false;
+        flag2 = false;
+        flag3 = false;
     }    
-  }  
+  }
   return arrRes;
 }
